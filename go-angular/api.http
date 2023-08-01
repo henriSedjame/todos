@@ -1,0 +1,17 @@
+POST http://localhost:3000/api/todos
+Content-Type: application/json
+
+{
+  "label": "Learn Node.js",
+  "completed": true
+}
+
+###
+
+PUT http://localhost:3000/api/todos/5b663942-309d-11ee-9ee6-d33a63f5cacb
+Content-Type: application/json
+
+{
+  "label": "Learn Node",
+  "completed": true
+}
