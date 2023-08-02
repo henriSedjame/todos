@@ -33,7 +33,9 @@ func main() {
 			},
 		}
 
-		app := fiber.New()
+		app := fiber.New(fiber.Config{
+			ErrorHandler: web.ErrorHandler,
+		})
 
 		web.Routes(app, handlers)
 

@@ -2,12 +2,18 @@ package web
 
 import "github.com/gofiber/fiber/v2"
 
-func Routes(app *fiber.App, handlers TodoHandlers) {
-	api := app.Group("/api/todos")
+const (
+	basePath  = "/api/todos"
+	emptyPath = ""
+	idPath    = ":id"
+)
 
-	api.Get("", handlers.GetAll)
-	api.Get(":id", handlers.GetById)
-	api.Post("", handlers.Create)
-	api.Put(":id", handlers.Update)
-	api.Delete(":id", handlers.Delete)
+func Routes(app *fiber.App, handlers TodoHandlers) {
+	api := app.Group(basePath)
+
+	api.Get(emptyPath, handlers.GetAll)
+	api.Get(idPath, handlers.GetById)
+	api.Post(emptyPath, handlers.Create)
+	api.Put(idPath, handlers.Update)
+	api.Delete(idPath, handlers.Delete)
 }

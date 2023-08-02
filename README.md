@@ -37,13 +37,34 @@ ___
 
 ### 1 - Golang / Angular
     
-- **Backend**: [Golang](https://golang.org/)
+- **Backend**: [Golang 1.20](https://golang.org/)
     
-- **Frontend**: [Angular](https://angular.io/)
+- **Frontend**: [Angular 16](https://angular.io/)
 
-- **Database**: [EdgeDB](https://edgedb.com/)
+- **Database**: [EdgeDB v3](https://edgedb.com/)
 
-In this example, i've used [Golang](https://golang.org/) as a backend language and [Fiber](https://gofiber.io/) framework to build the API.
+In this example, i've used [Golang](https://golang.org/) as a backend language and [Fiber v2](https://gofiber.io/) framework to build the API.
+Since I used version 1.20 of Golang, it was an opportunity to test the use of `generics` that appeared in version 1.18. 
+
+An example of usage of generics in the project 👇
+
+```go
+package utils
+
+type (
+	Consumer[T any] func(T) error
+	Supplier[T any] func() (T, error)
+)
+
+func HandleSup[T any](supplier Supplier[T], consumer Consumer[T]) error {
+	if t, err := supplier(); err != nil {
+		return err
+	} else {
+		return consumer(t)
+	}
+}
+```
+
 
 For the frontend, i've used [Angular](https://angular.io/) framework and [NgRx](https://ngrx.io/) to manage the state of the application.
 
