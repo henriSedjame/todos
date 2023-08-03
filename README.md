@@ -47,8 +47,7 @@ ___
 
 - **Database**: [EdgeDB v3](https://edgedb.com/)
 
-<img src="assets/go.png" style="width: 25px"> 
-In this example, i've used <a href="https://golang.org/">Golang</a> as a backend language and <a href="https://gofiber.io/">Fiber v2 </a> framework to build the API.
+<img src="assets/go.png" style="width: 25px"> In this example, i've used <a href="https://golang.org/">Golang</a> as a backend language and <a href="https://gofiber.io/">Fiber v2 </a> framework to build the API.
 Since I used version 1.20 of Golang, it was an opportunity to test the use of `generics` that appeared in version 1.18. 
 
 An example of usage of generics in the project 👇
