@@ -16,6 +16,7 @@ func main() {
 
 	ctx := context.Background()
 
+	// create edgedb client
 	if client, err := edgedb.CreateClient(ctx, edgedb.Options{}); err != nil {
 		log.Fatal(err)
 	} else {
@@ -33,16 +34,23 @@ func main() {
 			},
 		}
 
+		// create fiber app
 		app := fiber.New(fiber.Config{
 			ErrorHandler: web.ErrorHandler,
 		})
 
-		web.Routes(app, handlers)
+		// expose front ui
+		app.Static("/", "./static")
 
+		// expose _todo api
+		web.ConfigureTodoRoutes(app, handlers)
+
+		// start server
 		go func() {
 			log.Fatal(app.Listen(":3000"))
 		}()
 
+		// shutdown gracefully
 		shutdownGracefully(app)
 	}
 

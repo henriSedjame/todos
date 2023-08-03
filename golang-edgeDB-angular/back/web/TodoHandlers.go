@@ -27,7 +27,7 @@ func (handlers TodoHandlers) GetAll(c *fiber.Ctx) error {
 }
 
 func (handlers TodoHandlers) Create(c *fiber.Ctx) error {
-	var request models.EditTodoRequest
+	var request models.AddTodoRequest
 
 	if err := c.BodyParser(&request); err != nil {
 		return err
@@ -54,7 +54,7 @@ func (handlers TodoHandlers) GetById(c *fiber.Ctx) error {
 }
 
 func (handlers TodoHandlers) Update(c *fiber.Ctx) error {
-	var request models.EditTodoRequest
+	var request models.UpdateTodoRequest
 
 	if err := c.BodyParser(&request); err != nil {
 		return fiber.NewError(400, err.Error())

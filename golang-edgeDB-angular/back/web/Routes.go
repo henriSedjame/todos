@@ -8,7 +8,7 @@ const (
 	idPath    = ":id"
 )
 
-func Routes(app *fiber.App, handlers TodoHandlers) {
+func ConfigureTodoRoutes(app *fiber.App, handlers TodoHandlers) {
 	api := app.Group(basePath)
 
 	api.Get(emptyPath, handlers.GetAll)

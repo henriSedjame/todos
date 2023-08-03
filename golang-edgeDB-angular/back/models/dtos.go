@@ -7,8 +7,13 @@ type TodoDto struct {
 	Completed bool   `json:"completed"`
 }
 
-// EditTodoRequest : model representing the request body of editing a _todo
-type EditTodoRequest struct {
+// AddTodoRequest : model representing the request body of adding a _todo
+type AddTodoRequest struct {
+	Label string `json:"label"`
+}
+
+// UpdateTodoRequest : model representing the request body of updating a _todo
+type UpdateTodoRequest struct {
 	Label     string `json:"label"`
 	Completed bool   `json:"completed"`
 }

@@ -37,7 +37,7 @@ func (dao TodoStorage) existByLabel(label string) (bool, error) {
 }
 
 // Insert : create a new _todo
-func (dao TodoStorage) Insert(req models.EditTodoRequest) (*models.TodoEntity, error) {
+func (dao TodoStorage) Insert(req models.AddTodoRequest) (*models.TodoEntity, error) {
 
 	var entity models.TodoEntity
 
@@ -46,7 +46,7 @@ func (dao TodoStorage) Insert(req models.EditTodoRequest) (*models.TodoEntity, e
 	} else if exist {
 		return nil, errors.AlreadyExist
 	} else {
-		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(InsertTodoQuery), &entity, req.Label, req.Completed); err != nil {
+		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(InsertTodoQuery), &entity, req.Label, false); err != nil {
 			log.Fatal(err)
 			return nil, errors.FailToInsertTodo
 		}
@@ -72,7 +72,7 @@ func (dao TodoStorage) GetById(id string) (*models.TodoEntity, error) {
 }
 
 // Update : update a _todo
-func (dao TodoStorage) Update(id string, req models.EditTodoRequest) (*models.TodoEntity, error) {
+func (dao TodoStorage) Update(id string, req models.UpdateTodoRequest) (*models.TodoEntity, error) {
 
 	var entity models.TodoEntity
 

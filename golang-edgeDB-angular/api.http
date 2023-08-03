@@ -5,8 +5,7 @@ POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-  "label": "Learn Scala",
-  "completed": false
+  "label": "Learn Rust"
 }
 
 ###
