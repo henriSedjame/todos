@@ -33,6 +33,8 @@ The UI of the application is very simple and has only one page with the followin
 - Mark a todo as completed
 - Delete a todo
 
+<img alt="todo view" style="border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 5px #ddd;" src="assets/todo-ui.png" width="700px"/>
+
 ___
 
 ### 1 - Golang / Angular

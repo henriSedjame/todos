@@ -1,12 +1,10 @@
 module default {
 
-    scalar type Label extending str {
-        constraint min_len_value(1)
-        constraint exclusive
-    }
-
     type Todo {
-        required label: Label,
+        required label: str {
+            constraint min_len_value(1);
+            constraint exclusive;
+        }
         completed: bool {
             default := false;
         }
