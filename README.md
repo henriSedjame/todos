@@ -47,6 +47,25 @@ ___
 
 - **Database**: [EdgeDB v3](https://edgedb.com/)
 
+
+#### 🛵 How to run the application ?
+
+If you have `makefile` installed on your machine, you can run the following command to build and run the application:
+
+````shell
+ cd golang-edgeDB-angular && make build_and_run
+````
+
+or you can run the following commands:
+
+````shell
+cd golang-edgeDB-angular/front \
+  && ng build  --output-path ../back/static \
+  && cd ../back \
+  && go run main.go
+````
+then open your browser and navigate to `http://localhost:3000/`.
+
 <img src="assets/go.png" style="width: 25px"> In this example, i've used <a href="https://golang.org/">Golang</a> as a backend language and <a href="https://gofiber.io/">Fiber v2 </a> framework to build the API.
 Since I used version 1.20 of Golang, it was an opportunity to test the use of `generics` that appeared in version 1.18. 
 
