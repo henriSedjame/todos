@@ -38,15 +38,17 @@ The UI of the application is very simple and has only one page with the followin
 
 ___
 
-### 1 - Golang / Angular
-    
+
+### 1 - <img src="assets/go.png" style="width: 25px">  Golang / <img src="assets/edgedb.png" style="width: 30px"> EdgeDB  / <img src="assets/angular.png" style="width: 20px"> Angular 
+
 - **Backend**: [Golang 1.20](https://golang.org/)
     
 - **Frontend**: [Angular 16](https://angular.io/)
 
 - **Database**: [EdgeDB v3](https://edgedb.com/)
 
-In this example, i've used [Golang](https://golang.org/) as a backend language and [Fiber v2](https://gofiber.io/) framework to build the API.
+<img src="assets/go.png" style="width: 25px"> 
+In this example, i've used <a href="https://golang.org/">Golang</a> as a backend language and <a href="https://gofiber.io/">Fiber v2 </a> framework to build the API.
 Since I used version 1.20 of Golang, it was an opportunity to test the use of `generics` that appeared in version 1.18. 
 
 An example of usage of generics in the project 👇
@@ -69,7 +71,42 @@ func HandleSup[T any](supplier Supplier[T], consumer Consumer[T]) error {
 ```
 
 
-For the frontend, i've used [Angular](https://angular.io/) framework and [NgRx](https://ngrx.io/) to manage the state of the application.
 
-To store the data, i've chosen [EdgeDB](https://edgedb.com/) as a database. It is a new database built on top of PostgreSQL. 
-It is a very interesting database with a really nice and powerful query language. I highly recommend you to check it out.
+<img src="assets/edgedb.png" style="width: 30px"> To store the data, i've chosen <a href="https://edgedb.com/">EdgeDB</a> as a database. It is a new database built on top of PostgreSQL. 
+It is a very interesting database with a really nice type system an a powerful query language. 
+
+An example of schema to define the Todo model 👇
+``` sql
+module default {
+    type Todo {
+        required label: str {
+            constraint min_len_value(1);
+            constraint exclusive;
+        }
+        completed: bool {
+            default := false;
+        }
+    }
+}
+```
+
+An example of query to get a todo by id 👇
+```sql
+SELECT default::Todo {
+    id,
+    label,
+    completed
+} FILTER .id = <uuid>$0;
+```
+
+and to check if a todo with a specific label exists:
+
+``` sql
+SELECT count( 
+    (SELECT default::Todo FILTER .lable = <str>$0)
+) > 0;
+```
+
+I highly recommend you to check it out 😉.
+
+<img src="assets/angular.png" style="width: 20px"> For the frontend, i've used <a href="https://angular.io/">Angular</a> framework and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application.
