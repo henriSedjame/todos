@@ -9,5 +9,5 @@ const (
 	FailToDeleteTodoMsg           = "Fail to delete todo"
 	InvalidIdMsg                  = "Path param `id` is missing or invalid"
 
-	UneexpectedErrorMsg = "Unexpected error occurred"
+	UnexpectedErrorMsg = "Unexpected error occurred"
 )

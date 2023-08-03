@@ -18,10 +18,12 @@ func (handlers TodoHandlers) GetAll(c *fiber.Ctx) error {
 	return utils.HandleSup(
 		handlers.Dao.GetAll,
 		func(entities *[]models.TodoEntity) error {
+			todos = make([]models.TodoDto, 0, len(*entities))
 			for _, entity := range *entities {
 				todos = append(todos, entity.ToDTO())
 			}
 			return c.JSON(todos)
+
 		},
 	)
 }
@@ -30,6 +32,10 @@ func (handlers TodoHandlers) Create(c *fiber.Ctx) error {
 	var request models.AddTodoRequest
 
 	if err := c.BodyParser(&request); err != nil {
+		return err
+	}
+
+	if err := validateRequest(request); err != nil {
 		return err
 	}
 
@@ -58,6 +64,10 @@ func (handlers TodoHandlers) Update(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&request); err != nil {
 		return fiber.NewError(400, err.Error())
+	}
+
+	if err := validateRequest(request); err != nil {
+		return err
 	}
 
 	return handleIdParam(c, func(id string) error {
@@ -90,4 +100,11 @@ func handleIdParam(c *fiber.Ctx, action utils.Consumer[string]) error {
 	} else {
 		return action(id)
 	}
+}
+
+func validateRequest[T models.Request](t T) error {
+	if valErrors := t.Validate(); valErrors != nil {
+		return fiber.NewError(400, valErrors...)
+	}
+	return nil
 }

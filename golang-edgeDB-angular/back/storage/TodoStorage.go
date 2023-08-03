@@ -2,8 +2,9 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"github.com/edgedb/edgedb-go"
-	"github.com/henriSedjame/todo_app/errors"
+	tErrors "github.com/henriSedjame/todo_app/errors"
 	"github.com/henriSedjame/todo_app/models"
 	"github.com/henriSedjame/todo_app/utils"
 	"log"
@@ -20,8 +21,7 @@ func (dao TodoStorage) GetAll() (*[]models.TodoEntity, error) {
 	var entities []models.TodoEntity
 
 	if err := dao.Client.Query(dao.Ctx, GetAllTodoQuery, &entities); err != nil {
-		log.Fatal(err)
-		return nil, errors.FailToRetrieveTodos
+		return nil, handleErr(err, tErrors.FailToRetrieveTodos)
 	}
 
 	return &entities, nil
@@ -30,8 +30,7 @@ func (dao TodoStorage) GetAll() (*[]models.TodoEntity, error) {
 func (dao TodoStorage) existByLabel(label string) (bool, error) {
 	var exist bool
 	if err := dao.Client.QuerySingle(dao.Ctx, ExistByLabelQuery, &exist, label); err != nil {
-		log.Fatal(err)
-		return false, errors.FailToRetrieveTodos
+		return false, handleErr(err, tErrors.FailToRetrieveTodos)
 	}
 	return exist, nil
 }
@@ -44,11 +43,10 @@ func (dao TodoStorage) Insert(req models.AddTodoRequest) (*models.TodoEntity, er
 	if exist, err := dao.existByLabel(req.Label); err != nil {
 		return nil, err
 	} else if exist {
-		return nil, errors.AlreadyExist
+		return nil, handleErr(err, tErrors.AlreadyExist)
 	} else {
 		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(InsertTodoQuery), &entity, req.Label, false); err != nil {
-			log.Fatal(err)
-			return nil, errors.FailToInsertTodo
+			return nil, handleErr(err, tErrors.FailToInsertTodo)
 		}
 	}
 
@@ -62,8 +60,7 @@ func (dao TodoStorage) GetById(id string) (*models.TodoEntity, error) {
 
 	err := withParsedId(id, func(uuid edgedb.UUID) error {
 		if err := dao.Client.QuerySingle(dao.Ctx, GetTodoByIdQuery, &entity, uuid); err != nil {
-			log.Fatal(err)
-			return errors.FailToRetrieveTodos
+			return handleErr(err, tErrors.FailToRetrieveTodos)
 		}
 		return nil
 	})
@@ -77,10 +74,11 @@ func (dao TodoStorage) Update(id string, req models.UpdateTodoRequest) (*models.
 	var entity models.TodoEntity
 
 	err := withParsedId(id, func(uuid edgedb.UUID) error {
+
 		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(UpdateTodoQuery), &entity, uuid, req.Label, req.Completed); err != nil {
-			log.Fatal(err)
-			return errors.FailToUpdateTodo
+			return handleErr(err, tErrors.FailToUpdateTodo)
 		}
+
 		return nil
 	})
 
@@ -94,8 +92,7 @@ func (dao TodoStorage) Delete(id string) error {
 		var entity models.TodoEntity
 
 		if err := dao.Client.QuerySingle(dao.Ctx, DeleteTodoQuery, &entity, uuid); err != nil {
-			log.Fatal(err)
-			return errors.FailToDeleteTodo
+			return handleErr(err, tErrors.FailToDeleteTodo)
 		}
 
 		return nil
@@ -104,8 +101,7 @@ func (dao TodoStorage) Delete(id string) error {
 
 func withParsedId(id string, consumer utils.Consumer[edgedb.UUID]) error {
 	if uuid, err := edgedb.ParseUUID(id); err != nil {
-		log.Fatal(err)
-		return errors.InvalidId
+		return tErrors.InvalidId
 	} else {
 		return consumer(uuid)
 	}
@@ -116,4 +112,17 @@ func errorOr[T any](t *T, err error) (*T, error) {
 		return nil, err
 	}
 	return t, nil
+}
+
+func handleErr(err error, defaultErr error) error {
+	log.Println(err)
+
+	var edgedbErr edgedb.Error
+	if errors.As(err, &edgedbErr) {
+		if edgedbErr.Category(edgedb.NoDataError) {
+			return tErrors.NotFound
+		}
+	}
+
+	return defaultErr
 }

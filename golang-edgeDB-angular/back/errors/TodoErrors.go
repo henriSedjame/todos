@@ -33,7 +33,7 @@ func (t TodoError) Error() string {
 		return InvalidIdMsg
 	}
 
-	return UneexpectedErrorMsg
+	return UnexpectedErrorMsg
 }
 
 func (t TodoError) Status() int {
