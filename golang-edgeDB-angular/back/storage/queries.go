@@ -10,7 +10,7 @@ const (
     }`
 
 	ExistByLabelQuery = `SELECT count( 
-			( SELECT default::Todo Filter .label = <str>$0 ) 
+			( SELECT default::Todo Filter str_trim( str_lower( .label ) ) = str_trim( str_lower ( <str>$0) ) ) 
     ) > 0`
 
 	InsertTodoQuery = `INSERT default::Todo {

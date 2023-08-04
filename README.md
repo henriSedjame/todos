@@ -96,14 +96,16 @@ It is a very interesting database with a really nice type system an a powerful q
 An example of schema to define the Todo model 👇
 ``` sql
 module default {
+
     type Todo {
         required label: str {
             constraint min_len_value(1);
-            constraint exclusive;
         }
         completed: bool {
             default := false;
         }
+        
+        constraint exclusive on ( str_trim( str_lower( .label ) ) );
     }
 }
 ```

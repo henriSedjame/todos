@@ -7,6 +7,7 @@ type TodoError int32
 const (
 	AlreadyExist TodoError = iota
 	NotFound
+	DatabaseConstraintViolate
 	FailToRetrieveTodos
 	FailToInsertTodo
 	FailToUpdateTodo
@@ -21,6 +22,8 @@ func (t TodoError) Error() string {
 		return AlreadyExistMsg
 	case NotFound:
 		return NotFoundMsg
+	case DatabaseConstraintViolate:
+		return DatabaseConstraintViolateMsg
 	case FailToRetrieveTodos:
 		return FailToRetrieveTodosMsg
 	case FailToInsertTodo:
@@ -43,9 +46,7 @@ func (t TodoError) Status() int {
 		return fiber.StatusConflict
 	case NotFound:
 		return fiber.StatusNotFound
-	case FailToRetrieveTodos | FailToInsertTodo | FailToUpdateTodo | FailToDeleteTodo:
-		return fiber.StatusInternalServerError
-	case InvalidId:
+	case InvalidId | DatabaseConstraintViolate:
 		return fiber.StatusBadRequest
 	}
 

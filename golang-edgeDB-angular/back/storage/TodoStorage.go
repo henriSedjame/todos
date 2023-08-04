@@ -43,7 +43,7 @@ func (dao TodoStorage) Insert(req models.AddTodoRequest) (*models.TodoEntity, er
 	if exist, err := dao.existByLabel(req.Label); err != nil {
 		return nil, err
 	} else if exist {
-		return nil, handleErr(err, tErrors.AlreadyExist)
+		return nil, tErrors.AlreadyExist
 	} else {
 		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(InsertTodoQuery), &entity, req.Label, false); err != nil {
 			return nil, handleErr(err, tErrors.FailToInsertTodo)
@@ -115,13 +115,19 @@ func errorOr[T any](t *T, err error) (*T, error) {
 }
 
 func handleErr(err error, defaultErr error) error {
+
 	log.Println(err)
 
-	var edgedbErr edgedb.Error
-	if errors.As(err, &edgedbErr) {
-		if edgedbErr.Category(edgedb.NoDataError) {
+	var dbErr edgedb.Error
+
+	if errors.As(err, &dbErr) {
+		switch {
+		case dbErr.Category(edgedb.NoDataError):
 			return tErrors.NotFound
+		case dbErr.Category(edgedb.ConstraintViolationError):
+			return tErrors.DatabaseConstraintViolate
 		}
+
 	}
 
 	return defaultErr
