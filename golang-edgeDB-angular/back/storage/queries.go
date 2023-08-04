@@ -13,6 +13,13 @@ const (
 			( SELECT default::Todo Filter str_trim( str_lower( .label ) ) = str_trim( str_lower ( <str>$0) ) ) 
     ) > 0`
 
+	ExistByLabelAndNotIdQuery = `SELECT count( 
+			( SELECT default::Todo 
+					Filter .id != <uuid>$0 
+					AND str_trim( str_lower( .label ) ) = str_trim( str_lower ( <str>$1 ) ) 
+			) 
+    ) > 0`
+
 	InsertTodoQuery = `INSERT default::Todo {
 		label := <str>$0, 	
 		completed := <bool>$1 

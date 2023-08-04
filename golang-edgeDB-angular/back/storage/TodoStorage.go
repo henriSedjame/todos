@@ -35,6 +35,14 @@ func (dao TodoStorage) existByLabel(label string) (bool, error) {
 	return exist, nil
 }
 
+func (dao TodoStorage) existByLabelAndNotId(id edgedb.UUID, label string) (bool, error) {
+	var exist bool
+	if err := dao.Client.QuerySingle(dao.Ctx, ExistByLabelAndNotIdQuery, &exist, id, label); err != nil {
+		return false, handleErr(err, tErrors.FailToRetrieveTodos)
+	}
+	return exist, nil
+}
+
 // Insert : create a new _todo
 func (dao TodoStorage) Insert(req models.AddTodoRequest) (*models.TodoEntity, error) {
 
@@ -74,6 +82,12 @@ func (dao TodoStorage) Update(id string, req models.UpdateTodoRequest) (*models.
 	var entity models.TodoEntity
 
 	err := withParsedId(id, func(uuid edgedb.UUID) error {
+
+		if exist, err := dao.existByLabelAndNotId(uuid, req.Label); err != nil {
+			return err
+		} else if exist {
+			return tErrors.AlreadyExist
+		}
 
 		if err := dao.Client.QuerySingle(dao.Ctx, selectQuery(UpdateTodoQuery), &entity, uuid, req.Label, req.Completed); err != nil {
 			return handleErr(err, tErrors.FailToUpdateTodo)
@@ -127,7 +141,6 @@ func handleErr(err error, defaultErr error) error {
 		case dbErr.Category(edgedb.ConstraintViolationError):
 			return tErrors.DatabaseConstraintViolate
 		}
-
 	}
 
 	return defaultErr
