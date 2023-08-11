@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/edgedb/edgedb-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/henriSedjame/todo_app/storage"
 	"github.com/henriSedjame/todo_app/web"
 	"log"
@@ -38,6 +39,11 @@ func main() {
 		app := fiber.New(fiber.Config{
 			ErrorHandler: web.ErrorHandler,
 		})
+
+		app.Use(cors.New(cors.Config{
+			AllowOrigins: "*",
+			AllowHeaders: "Origin, Content-Type, Accept",
+		}))
 
 		// expose front ui
 		app.Static("/", "./static")

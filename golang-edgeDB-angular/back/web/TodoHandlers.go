@@ -88,7 +88,7 @@ func (handlers TodoHandlers) Delete(c *fiber.Ctx) error {
 			id,
 			handlers.Dao.Delete,
 			func() error {
-				return c.SendString("deleted")
+				return nil
 			},
 		)
 	})
