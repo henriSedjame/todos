@@ -6,16 +6,13 @@
   </div>
 
   <div class="todo-label">
-    <span *ngIf="isEditing; else label">.............</span>
-    <ng-template #label>
-      <span>{{todo.label}}</span>
-    </ng-template>
+    <span>{{labelToShow()}}</span>
   </div>
 
   <div class="todo-actions">
-    <app-button [iconLabel]="icons.Edit" [active]="editable" (click)="onEdit()"></app-button>
+    <app-button [iconLabel]="icons.Edit" [active]="editable()" (click)="onEdit()"></app-button>
     <div class="space"></div>
-    <app-button [iconLabel]="icons.Delete" [active]="buttonActive" (click)="onDelete()"></app-button>
+    <app-button [iconLabel]="icons.Delete" [active]="deletable()" (click)="onDelete()"></app-button>
   </div>
 
 </div>

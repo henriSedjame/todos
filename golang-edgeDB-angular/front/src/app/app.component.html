@@ -1,16 +1,14 @@
 <div class="content">
-  <app-edit-todo
-    [labelSignal]="labelSignal"
-  ></app-edit-todo>
-  <app-filter-bar [selectedOptionSignal]="selectedOptionSignal"></app-filter-bar>
+  <app-edit-todo></app-edit-todo>
+  <app-filter-bar></app-filter-bar>
 
   <div style="margin-top: 70px"></div>
 
   <ng-container *ngFor="let todo of todos()">
-    <app-todo-view
-      [todo]="todo"
-      [editable]="!hasEditingTodo()"
-      [isEditing]="todo.id === editingTodo()?.id"
-    ></app-todo-view>
+    <app-todo-view [todo]="todo"></app-todo-view>
+  </ng-container>
+
+  <ng-container *ngIf="error()">
+    <div class="error"> {{error()}} </div>
   </ng-container>
 </div>

@@ -1,19 +1,25 @@
 
 import {TodoState} from "../index";
+import {Todo} from "../../models/dtos";
 
-export interface CompleteTodoProps{
+export interface CompleteTodoRequestProps {
   id: string,
   completed: boolean
+  label: string
 }
 
-export function updateTodoCompleted(state: TodoState, props: CompleteTodoProps): TodoState {
+export interface TodoCompletedProps {
+  todo: Todo
+}
+
+export function todoCompleted(state: TodoState, props: TodoCompletedProps): TodoState {
   return {
     ...state,
     todos: state.todos.map(todo => {
-      if (todo.id === props.id) {
+      if (todo.id === props.todo.id) {
         return {
           ...todo,
-          completed: props.completed
+          completed: props.todo.completed
         }
       }
       return todo;
