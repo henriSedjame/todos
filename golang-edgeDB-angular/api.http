@@ -5,15 +5,18 @@ POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-  "label": "Learn Rust"
+  "label": "complete todo app"
 }
 
 ###
 
-PUT http://localhost:3000/api/todos/5b663942-309d-11ee-9ee6-d33a63f5cacb
+PUT http://localhost:3000/api/todos/6ca74704-3242-11ee-b1a1-3b9a7ca6e477
 Content-Type: application/json
 
 {
-  "label": "Learn Node",
+  "label": "Learn TypeScript",
   "completed": true
 }
+
+###
+DELETE http://localhost:3000/api/todos/4d7e9918-320b-11ee-952f-0bf20c750520

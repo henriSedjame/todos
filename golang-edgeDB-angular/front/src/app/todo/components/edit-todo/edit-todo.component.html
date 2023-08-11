@@ -1,0 +1,11 @@
+<div class="input-bloc">
+  <input
+    placeholder="Add new task to achieve"
+    [formControl]="labelControl"
+  />
+  <app-button
+    [active]="labelControl.valid"
+    [iconLabel]="addBtnLabel"
+    (click)="hasEditingTodo() ? editTask() : addTask()"
+  ></app-button>
+</div>

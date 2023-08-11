@@ -1,0 +1,21 @@
+.filter-bloc {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+
+  .filter-divider {
+    margin: 0 10px ;
+    width: 2px;
+    height: 20px;
+    background-color: white;
+  }
+
+  .filter-option {
+    cursor: pointer;
+    color: var(--text-inactive-color);
+    &.active {
+      font-weight: bold;
+      color: var(--text-color);
+    }
+  }
+}

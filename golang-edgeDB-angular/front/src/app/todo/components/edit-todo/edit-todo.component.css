@@ -1,0 +1,13 @@
+.input-bloc {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 0 10px;
+
+  width: var(--input-bloc-width);
+  background-color: var(--input-bg-color);
+  border-bottom: var(--light-border);
+  box-shadow: 0 3px 10px -2px black;
+}

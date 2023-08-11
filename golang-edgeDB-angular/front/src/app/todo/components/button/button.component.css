@@ -1,0 +1,29 @@
+.btn {
+  width: var(--btn-size);
+  height: var(--btn-size);
+  border-radius: var(--btn-radius);
+  background-color: var(--btn-color);
+  position: relative;
+
+  .icon {
+    position: absolute;
+
+    color: var(--btn-icon-color);
+    top: var(--btn-icon-pos-y);
+    left: var(--btn-icon-pos-x);
+    font-weight: var(--font-weight);
+    font-size: var(--btn-icon-size);
+  }
+
+}
+
+.btn-active:hover {
+  cursor: pointer;
+  box-shadow: var(--btn-hover-shadow);
+  .icon {
+    color: var(--lighted-line-color);
+    border: var(--no-border);
+    box-shadow: var(--no-shadow);
+  }
+}
+

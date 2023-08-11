@@ -1,0 +1,5 @@
+<div class="filter-bloc">
+  <span [ngClass]="viewAll() ? 'active' : ''" class="filter-option" (click)="select(true)">View All</span>
+  <div class="filter-divider"></div>
+  <span [ngClass]="viewAll() ? '' : 'active'" class="filter-option" (click)="select(false)">Completed</span>
+</div>

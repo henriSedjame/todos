@@ -1,0 +1,6 @@
+<div
+  class="btn"
+  [ngClass]="active ? 'btn-active' : ''"
+  (click)="onClick()">
+    <mat-icon class="icon"  *ngIf="iconLabel">{{iconLabel}}</mat-icon>
+</div>
