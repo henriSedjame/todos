@@ -23,11 +23,13 @@ export class AppComponent implements OnInit {
   ))
 
   constructor(private store: Store<AppState>) {
-    effect(() => {
+    effect((onCleanup) => {
       if (this.error() != null) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           this.store.dispatch(todoActions.clearError());
         }, 3000)
+
+        onCleanup(() => clearTimeout(timer))
       }
     })
   }
