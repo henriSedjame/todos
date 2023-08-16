@@ -129,4 +129,8 @@ SELECT count(
 
 I highly recommend you to check it out 😉.
 
-<img src="assets/angular.png" style="width: 20px"> For the frontend, i've used <a href="https://angular.io/">Angular</a> framework, <a href="https://angular.io/guide/signals">Signals</a> and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application.
+<img src="assets/angular.png" style="width: 20px"> For the frontend, i've used <a href="https://angular.io/">Angular</a> framework, 
+<a href="https://angular.io/guide/signals">Angular Signals</a> instead of <a href="https://rxjs.dev/">RxJS</a>
+and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application with Redux pattern.
+ 
+
