@@ -38,11 +38,14 @@ The UI of the application is very simple and has only one page with the followin
 
 ___
 
+<details>
+    <summary>
+        <img src="assets/go.png" style="width: 25px">  Golang / <img src="assets/edgedb.png" style="width: 30px"> EdgeDB  / <img src="assets/angular.png" style="width: 20px"> Angular
+    </summary>
 
-### 1 - <img src="assets/go.png" style="width: 25px">  Golang / <img src="assets/edgedb.png" style="width: 30px"> EdgeDB  / <img src="assets/angular.png" style="width: 20px"> Angular 
 
 - **Backend**: [Golang 1.20](https://golang.org/)
-    
+
 - **Frontend**: [Angular 16](https://angular.io/)
 
 - **Database**: [EdgeDB v3](https://edgedb.com/)
@@ -132,5 +135,14 @@ I highly recommend you to check it out 😉.
 <img src="assets/angular.png" style="width: 20px"> For the frontend, i've used <a href="https://angular.io/">Angular</a> framework, 
 <a href="https://angular.io/guide/signals">Angular Signals</a> instead of <a href="https://rxjs.dev/">RxJS</a>
 and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application with Redux pattern.
- 
 
+</details>
+<br>
+
+<details>
+    <summary>
+        Rust ( Leptos-rs )
+    </summary>
+</details>
+
+<br><br>
