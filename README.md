@@ -33,7 +33,7 @@ The UI of the application is very simple and has only one page with the followin
 - Mark a todo as completed
 - Delete a todo
 <div style="width: 100%; text-align: center;">
-    <img alt="todo view" style="border: 0px; margin-left: 50px" src="assets/todo-ui.png" width="700px"/>
+    <img alt="todo view" style="border: 0; margin-left: 50px" src="assets/todo-ui.png" width="700px"/>
 </div>
 
 ___
@@ -141,8 +141,62 @@ and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application w
 
 <details>
     <summary>
-        Rust ( Leptos-rs )
+        <img src="assets/rust.png" style="width: 25px">  Rust / <img src="assets/surrealdb.png" style="width: 20px"> SurrealDB  / <img src="assets/elm.png" style="width: 20px"> Elm
     </summary>
+
+- **Backend**: [Rust 1.71.0](https://www.rust-lang.org/)
+
+- **Frontend**: [Elm 0.19.1](https://elm-lang.org/)
+
+- **Database**: [SurrealDB v1.0.0-beta.9+20230402](https://surrealdb.com/)
+
+
+
+
+#### 🛵 How to run the application ?
+
+If you have `makefile` installed on your machine, you can run the following command to build and run the application:
+
+````shell
+ cd rust-surrealDB-Elm && make build_and_run
+````
+
+or you can run the following commands:
+
+````shell
+cd rust-surrealDB-Elm/front \
+  && ng build  --output-path ../back/static \
+  && cd ../back \
+  && cargo run 
+````
+then open your browser and navigate to `http://localhost:8080/`.
+
+<img src="assets/rust.png" style="width: 20px"> For this second implementation of the todo-app, i've choosen <a href="https://rust-lang.org">Rust programming language</a>. It's not the easiest one but i love it. I've already try it before, but this time i've decided to give a try to one of its most popular web framework : <a href="https://rocket.rs/">Rocket rs</a>. It's a really good framework that provide `derive macros` to easily write API endpoints.  
+
+````rust
+#[post("/", data = "<request>")]
+pub async fn create(request: Form<AddTodoRequest>, db: &State<DB>) -> Result<Json<TodoDto>, TodoError> {
+    create_todo(request.into_inner(), db.inner()).await.map(Json)
+}
+````
+<br>
+<br>
+
+<img src="assets/surrealdb.png" style="width: 20px"> I love learning new stuffs, so for this example i've decided to try a new database. <a href="https://surrealdb.com/">SurrealDB</a> is a new database written in `Rust` that provide a sql-style query language. 
+
+An example of query to check if a todo exist with a given label 👇
+```sql
+SELECT * FROM (
+    SELECT * FROM count(
+        (
+            SELECT * FROM type::table($table)
+            WHERE string::trim(string::lowercase(label)) = $label
+        )
+    )
+)[0] > 0
+```
 </details>
+
+
 
 <br><br>
