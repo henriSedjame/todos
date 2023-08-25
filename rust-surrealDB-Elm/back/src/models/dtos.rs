@@ -19,3 +19,9 @@ impl From<TodoEntity> for TodoDto {
         }
     }
 }
+
+#[derive(Serialize, Clone)]
+#[serde(crate="rocket::serde")]
+pub struct TodoDeletedResponse {
+    pub deleted: bool
+}

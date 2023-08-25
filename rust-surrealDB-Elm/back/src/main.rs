@@ -25,6 +25,7 @@ async fn rocket() -> Rocket<Build> {
             match init_db(config.db).await {
 
                 Ok(db) => {
+
                     rocket::build()
                         .manage(Mutex::new(db))
                         .register("/", catchers![catch_default,catch_bad_request,catch_unprocesseable_entity])

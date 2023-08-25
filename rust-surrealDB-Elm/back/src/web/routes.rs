@@ -2,7 +2,7 @@ use rocket::State;
 use rocket::form::Form;
 use rocket::serde::json::Json;
 
-use crate::models::dtos::TodoDto;
+use crate::models::dtos::{TodoDeletedResponse, TodoDto};
 use crate::models::errors::TodoError;
 use crate::models::requests::{AddTodoRequest, UpdateTodoRequest};
 use crate::services::todo_storage::{create_todo, delete_todo, get_all_todos, update_todo};
@@ -26,6 +26,6 @@ pub async fn update(id: String, request: Form<UpdateTodoRequest>,  db: &State<DB
 }
 
 #[delete("/<id>")]
-pub async fn delete(id: String, db: &State<DB>) -> Result<String, TodoError> {
-     delete_todo(id, db.inner()).await.map(|_| "deleted".to_owned())
+pub async fn delete(id: String, db: &State<DB>) -> Result<Json<TodoDeletedResponse>, TodoError> {
+     delete_todo(id, db.inner()).await.map(|_| Json(TodoDeletedResponse { deleted: true }))
 }
