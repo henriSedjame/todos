@@ -1,5 +1,5 @@
 build_web:
-	cd front && ng build  --output-path ../back/static
+	cd front && elm make src/Main.elm --optimize --output=../back/static/main.js
 
 run :
 	cd back && cargo run
