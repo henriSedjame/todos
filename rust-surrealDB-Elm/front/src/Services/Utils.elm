@@ -1,6 +1,7 @@
 module Services.Utils exposing (..)
 
 import Browser.Dom
+import Models.Dto exposing (Todo)
 import Process
 import StateManagement.Actions exposing (TodoActions(..))
 import Task
@@ -13,6 +14,11 @@ toString b =
 
     else
         "False"
+
+
+switchCompleted : Todo -> Todo
+switchCompleted todo =
+    { todo | completed = not todo.completed }
 
 
 delay : Float -> TodoActions -> Cmd TodoActions

@@ -195,6 +195,33 @@ SELECT * FROM (
     )
 )[0] > 0
 ```
+
+<img src="assets/elm.png" style="width: 20px"> What's about <a href="https://elm-lang.org">Elm</a>? Elm is defined by its creator as `a delightful language for reliable web applications`. In fact, Elm is a functional, typed and error free language. As a Java developer, I am not really familiar with Functional Languages even if i've already tried languages à <a href="https://fsharp.org/">F#</a> or <a href="https://elixir-lang.org/">Elixir</a>. But Elm is really easy to learn. And any developer can learn and write elm code in few days.
+
+I've choose Elm to this implementation because, this language is really awesome. Like Rust, it is `error free`, that mean that if your code compile, it could not fail at runtime. It's perfect to write robust web applications 🦾.
+
+
+```elm
+filterBarView : FilterOption -> Html TodoActions
+filterBarView option =
+    let
+        classes =
+            case option of
+                All ->
+                    ( filterOptionClass ++ " " ++ filterActiveClass, filterOptionClass )
+
+                Completed ->
+                    ( filterOptionClass, filterOptionClass ++ " " ++ filterActiveClass )
+    in
+    div [ class filterBlocClass ]
+        [ span [ class <| Tuple.first classes, onClick <| ChangeFilter All ] [ text "View All" ]
+        , div [ class filterDividerClass ] []
+        , span [ class <| Tuple.second classes, onClick <| ChangeFilter Completed ] [ text "Completed" ]
+        ]
+
+```
+
+
 </details>
 
 

@@ -4,6 +4,7 @@ import Html.Styled exposing (Html, div, span, text)
 import Html.Styled.Attributes exposing (class)
 import Models.Dto exposing (Todo)
 import Models.ViewModels exposing (ButtonIcon(..))
+import Services.Utils exposing (switchCompleted)
 import StateManagement.Actions exposing (TodoActions(..))
 import Views.Btn exposing (btn)
 import Views.Styles exposing (spaceClass, todoActionsClass, todoCheckClass, todoLabelClass, todoLineClass)
@@ -27,24 +28,24 @@ todoView todo editingTodo =
 
                 Nothing ->
                     True
+
+        editIcon =
+            if todo.completed then
+                Just Check
+
+            else
+                Nothing
     in
     div [ class todoLineClass ]
         [ div [ class todoCheckClass ]
-            [ btn True
-                (if todo.completed then
-                    Just Check
-
-                 else
-                    Nothing
-                )
-                (CompleteTodoRequested { todo | completed = not todo.completed })
+            [ btn True editIcon (CompleteTodoRequested <| switchCompleted todo)
             ]
         , div [ class todoLabelClass ]
             [ span [] [ text todo.label ]
             ]
         , div [ class todoActionsClass ]
-            [ btn isEditable (Just Edit) (EditTodo todo)
+            [ (btn isEditable  <| Just Edit) <| EditTodo todo
             , div [ class spaceClass ] []
-            , btn isDeletable (Just Delete) (DeleteTodoRequested todo.id)
+            , (btn isDeletable <| Just Delete) <| DeleteTodoRequested todo.id
             ]
         ]
