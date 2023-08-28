@@ -1,42 +1,43 @@
 module Models.Dto exposing (..)
 
+
 type alias Todo =
-    {
-        id: String
-        , label: String
-        , completed: Bool
+    { id : String
+    , label : String
+    , completed : Bool
     }
+
 
 type alias AddTodoRequest =
-    {
-        label: String
+    { label : String
     }
 
+
 type alias UpdateTodoRequest =
-    {
-        label: String,
-        completed: Bool
+    { label : String
+    , completed : Bool
     }
 
 
 type alias TodoDeleteResult =
-    {
-        deleted: Bool
+    { deleted : Bool
     }
+
 
 type alias ErrorResponse =
-    {
-        message: String
+    { message : String
     }
 
-type ApiCall =
-    GetAll
+
+type ApiCall
+    = GetAll
     | Create
     | Update
     | Delete String
 
-type ApiResponse =
-    TodosLoaded (List Todo)
+
+type ApiResponse
+    = TodosLoaded (List Todo)
     | TodoCreated Todo
     | TodoUpdated Todo
     | TodoDeleted String
