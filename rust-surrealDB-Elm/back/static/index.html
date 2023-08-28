@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo App</title>
+
 </head>
 <body>
-  <h1> TODOS </h1>
+<div id="app"></div>
+<script src="main.js"></script>
+<script>
+    const app = Elm.Main.init({
+        node: document.getElementById("app")
+    })
+</script>
 </body>
 </html>
