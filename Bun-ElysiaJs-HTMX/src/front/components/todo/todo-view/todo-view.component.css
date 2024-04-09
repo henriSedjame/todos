@@ -1,0 +1,31 @@
+.todo-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+
+    width: var(--input-bloc-width);
+    background-color: transparent;
+    border-bottom: var(--border);
+
+    .todo-check{
+        flex-grow: 1;
+    }
+
+    .todo-label {
+        text-align: start;
+        flex-grow: 18;
+        font-size: 20px;
+    }
+
+    .todo-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        flex-grow: 2;
+        align-items: center;
+
+    }
+}
