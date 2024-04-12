@@ -21,6 +21,10 @@ export const App = async () => {
                 <div id={Ids.TODO_LIST_ID} hx-get={getAllViewsRoute} hx-trigger={'load'} hx-swap={'innerHTML'}>
 
                 </div>
+
+                <div id={Ids.ERROR_BLOCK_ID} class={'error invisible'}>
+
+                </div>
             </div>
         )
     )

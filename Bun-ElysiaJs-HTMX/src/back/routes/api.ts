@@ -43,3 +43,5 @@ export const todo_api = new Elysia()
             .put(UPDATE_PATH, updateTodoHandler,updateTodoHooks)
             .delete(DELETE_PATH, deleteTodoHandler,deleteTodoHooks)
     )
+
+export type  TodoApi = typeof todo_api

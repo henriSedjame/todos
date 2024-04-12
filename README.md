@@ -151,8 +151,6 @@ and <a href="https://ngrx.io/">NgRx</a> to manage the state of the application w
 - **Database**: [SurrealDB v1.0.0-beta.9+20230402](https://surrealdb.com/)
 
 
-
-
 #### 🛵 How to run the application ?
 
 If you have `makefile` installed on your machine, you can run the following command to build and run the application:
@@ -196,7 +194,7 @@ SELECT * FROM (
 )[0] > 0
 ```
 
-<img src="assets/elm.png" style="width: 20px"> What's about <a href="https://elm-lang.org">Elm</a>? Elm is defined by its creator as `a delightful language for reliable web applications`. In fact, Elm is a functional, typed and error free language. As a Java developer, I am not really familiar with Functional Languages even if i've already tried languages à <a href="https://fsharp.org/">F#</a> or <a href="https://elixir-lang.org/">Elixir</a>. But Elm is really easy to learn. And any developer can learn and write elm code in few days.
+<img src="assets/elm.png" style="width: 20px"> What's about <a href="https://elm-lang.org">Elm</a>? Elm is defined by its creator as <code>a delightful language for reliable web applications</code>. In fact, Elm is a functional, typed and error free language. As a Java developer, I am not really familiar with Functional Languages even if i've already tried languages à <a href="https://fsharp.org/">F#</a> or <a href="https://elixir-lang.org/">Elixir</a>. But Elm is really easy to learn. And any developer can learn and write elm code in few days.
 
 I've choose Elm to this implementation because, this language is really awesome. Like Rust, it is `error free`, that mean that if your code compile, it could not fail at runtime. It's perfect to write robust web applications 🦾.
 
@@ -225,5 +223,83 @@ filterBarView option =
 </details>
 
 
+<br>
 
-<br><br>
+<details>
+    <summary>
+        <img src="assets/bun.png" style="width: 25px">  Bun / <img src="assets/elysia.png" style="width: 20px"> Elysia Js  / <img src="assets/htmx.png" style="width: 20px"> HTMX
+    </summary>
+
+- **Backend**: [Elysia Js](https://elysiajs.com)
+
+- **Frontend**: [HTMX](https://htmx.org/)
+
+- **Database**: [bun:sqlite](https://bun.sh/docs/api/sqlite)
+
+
+#### 🛵 How to run the application ?
+
+First, you need to install `bun` on your machine. 
+
+Follow the instructions on the [bun documentation](https://bun.sh/docs/installation) to install it.
+
+Then, you can run the following command to build and run the application:
+
+````shell
+ cd Bun-ElysiaJs-HTMX && bun dev
+````
+
+then open your browser and navigate to `http://localhost:3000/`.
+
+<img src="assets/bun.png" style="width: 20px"> What's <strong>Bun</strong>?
+
+``
+Bun is an all-in-one JavaScript runtime & toolkit designed for speed, complete with a bundler, test runner, and Node.js-compatible package manager.
+``
+
+It's a new tool that i've discovered recently. It's a perfect tool to build web applications. It's really easy to use and it's really fast.
+
+For the third implementation of the todo-app, i've decided to use Bun as my application runtime. 
+
+It is possible to build a rest api server with bun as follows:
+
+```typescript
+const server = Bun.serve({
+  port: 3000,
+  fetch(request) {
+    return new Response("Welcome to Bun!");
+  },
+});
+```
+But i prefer to use  <a href="https://elysiajs.com">Elysia Js</a> framework to write my endpoints.
+
+<img src="assets/elysia.png" style="width: 20px"> <strong>Elysia</strong> Js is a really fast and easy to use web framework. Faster than Nest, Express, Fastify, FastApi, Spring or Gin frameworks.
+
+Elysia app (_powered by bun_) can be easily created with bun by running : ```bun create elysia```
+
+If you are familiar with any web framework you will easily understand how to use Elysia Js.
+
+```typescript
+const app = new Elysia()
+    .get('/', 'Hello World')
+    .get('/json', {
+        hello: 'world'
+    })
+    .get('/id/:id', ({ params: { id } }) => id)
+    .post('/profile', ({ body }) => body,
+        {
+            body: t.Object({
+                username: t.String()
+            })
+        }
+    )
+    .listen(3000)
+```
+
+<img src="assets/htmx.png" style="width: 20px"> <strong>HTMX</strong> is a new tool that i've discovered recently. It's a really cool tool that allow you to build web applications with less javascript code. 
+
+```
+htmx gives you access to AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext
+```
+
+</details>

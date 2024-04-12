@@ -9,7 +9,6 @@ export const styles_plugin = new Elysia()
     .group("styles", (app) => app
         .get("", () => Bun.file(`${DIR_PATH}/styles.css`))
         .get("/component", ({query}) => {
-
             let qpath = query.path;
             let path = (qpath !== undefined) ? `/${qpath}` : '';
             let name = query.name;

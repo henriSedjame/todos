@@ -11,4 +11,6 @@ export enum Ids{
 
     UPDATE_TODO_BLOC_ID = 'update-todo-bloc',
     EDIT_TODO_BLOC_ID = 'edit-todo-bloc',
+
+    ERROR_BLOCK_ID = 'error-block',
 }

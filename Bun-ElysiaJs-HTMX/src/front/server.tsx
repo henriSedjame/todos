@@ -3,9 +3,9 @@ import staticPlugin from "@elysiajs/static";
 import {html} from "@elysiajs/html";
 
 import {events_plugins, styles_plugin} from "./plugins";
-import {createDb, getAllTodos} from "../back/storage";
 
-import {App, TodoView, ViewsRoutes} from "./components";
+
+import {App, ViewsRoutes} from "./components";
 import {
     checkTodoViewHandler,
     deleteTodoViewHandler,
@@ -17,13 +17,12 @@ import {
 
 const DIR_PATH = import.meta.dir
 
-export const view_api =  new Elysia()
+export const view_api = new Elysia()
     .use(html())
-    .decorate("db", createDb())
-    .use(staticPlugin({assets: `${DIR_PATH}/public`, prefix:""}))
+    .use(staticPlugin({assets: `${DIR_PATH}/public`, prefix: ""}))
     .use(styles_plugin)
     .use(events_plugins)
-    .get("", () => <Index />)
+    .get("", () => <Index/>)
     .get("/global.ts", () => Bun.file(`${DIR_PATH}/global.ts`))
     .group(ViewsRoutes.BASE_PATH_VIEW, (app) =>
         app
@@ -31,8 +30,8 @@ export const view_api =  new Elysia()
             .post(ViewsRoutes.POST_TODO_VIEW, postTodoViewHandler)
             .put(ViewsRoutes.PUT_TODO_VIEW, putTodoViewHandler, {
                 query: t.Object({
-                  id: t.String(),
-                  completed: t.String()
+                    id: t.String(),
+                    completed: t.String()
                 }),
                 body: t.Object({
                     label: t.String()
@@ -51,7 +50,6 @@ export const view_api =  new Elysia()
                 })
 
             })
-
     );
 
 export const Index = () => {
@@ -72,12 +70,10 @@ export const Index = () => {
             <script src="https://unpkg.com/htmx.org@1.9.11"
                     integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0"
                     crossorigin="anonymous"></script>
-
+            <script src="./global.ts" type="module"/>
         </head>
         <body>
         <App/>
-        <script src="./global.ts" type={'module'}/>
-
         </body>
         </html>
     );

@@ -1,5 +1,6 @@
+//@ts-nocheck
+
 document.body.addEventListener('labelChecked', (event) => {
-    // @ts-ignore
     let {valid, action} = event.detail;
 
     let btn = null;
@@ -11,11 +12,9 @@ document.body.addEventListener('labelChecked', (event) => {
 
     if (btn) {
         if (valid) {
-            // @ts-ignore
             btn.disabled = false;
             btn.classList.add('btn-active');
         } else {
-            // @ts-ignore
             btn.disabled = true;
             btn.classList.remove('btn-active');
         }
@@ -23,30 +22,25 @@ document.body.addEventListener('labelChecked', (event) => {
 });
 
 document.body.addEventListener('todoAdded', (event) => {
-    // @ts-ignore
     let added = event.detail.value;
     let input = document.getElementById('task-input');
     let btn = document.getElementById('add-task-button');
 
     if (btn) {
-        //@ts-ignore
         btn.disabled = true;
         btn?.classList.remove('btn-active');
     }
 
     if (input) {
-        //@ts-ignore
         input.value = '';
     }
 });
 
 document.body.addEventListener('filterTodos', (event) => {
-    // @ts-ignore
     let filter = event.detail.value;
     const isAll = filter === 'all';
 
     for (const elmt of document.getElementsByClassName('not-completed')) {
-        //@ts-ignore
         elmt.style.display = isAll ? 'flex' : 'none';
     }
 
@@ -60,8 +54,6 @@ document.body.addEventListener('filterTodos', (event) => {
 });
 
 document.body.addEventListener('startTodoEditing', (event) => {
-
-    // @ts-ignore
     let {id, label} = event.detail;
 
     const updateBloc = document.getElementById('update-todo-bloc')
@@ -98,7 +90,7 @@ document.body.addEventListener('startTodoEditing', (event) => {
             }
 
             if (btn) {
-                // @ts-ignore
+               
                 btn.disabled = true;
                 btn.classList.remove('btn-active');
             }
@@ -111,12 +103,12 @@ document.body.addEventListener('startTodoEditing', (event) => {
 
         if (delBtn) {
             delBtn.classList.remove('btn-active');
-            // @ts-ignore
+           
             delBtn.disabled = true;
         }
         if (checkBtn) {
             checkBtn.classList.remove('btn-active');
-            // @ts-ignore
+           
             checkBtn.disabled = true;
         }
 
@@ -142,7 +134,7 @@ document.body.addEventListener('todoUpdated', (_) => {
 
             let btn = document.getElementById('update-task-button');
             if (btn) {
-                // @ts-ignore
+               
                 btn.disabled = true;
                 btn.classList.remove('btn-active');
             }
@@ -164,5 +156,26 @@ document.body.addEventListener('todoUpdated', (_) => {
         }
 
     }
+
+});
+
+document.body.addEventListener('htmx:responseError', function(evt) {
+
+    let message = JSON.parse(evt.detail.xhr.response).message;
+    const errorBLoc = document.getElementById('error-block')
+
+    errorBLoc?.classList.remove('invisible');
+    errorBLoc?.classList.add('visible');
+
+    let elt = document.createElement('i');
+    elt.innerText = message;
+
+    errorBLoc?.appendChild(elt);
+
+    setTimeout(() => {errorBLoc?.classList.remove('visible');
+        errorBLoc?.classList.remove('visible');
+        errorBLoc?.classList.add('invisible');
+        errorBLoc?.removeChild(elt);
+    }, 3000)
 
 });

@@ -3,13 +3,16 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "front": "bun run --watch src/front/index.ts",
+    "back": "bun run --watch src/back/index.ts",
     "dev": "bun run --watch src/app.tsx"
   },
   "dependencies": {
+    "@elysiajs/eden": "^1.0.11",
     "@elysiajs/html": "^1.0.2",
     "@elysiajs/static": "^1.0.2",
     "bun-sqlite-migrations": "^1.0.2",
-    "elysia": "latest"
+    "elysia": "^1.0.13"
   },
   "devDependencies": {
     "bun-types": "latest"

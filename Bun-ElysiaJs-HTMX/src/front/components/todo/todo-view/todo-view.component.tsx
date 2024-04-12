@@ -1,5 +1,5 @@
 import {component} from "../../utils";
-import {Button, ButtonIcon, CheckButton, DeleteButton, EditButton} from "../button";
+import {CheckButton, DeleteButton, EditButton} from "../button";
 import {Ids} from "../../ids";
 import {Todo} from "../../models";
 

@@ -1,50 +1,62 @@
-import {Database} from "bun:sqlite";
-import {deleteTodo, getAllTodos, saveTodo, updateTodo} from "../back/storage";
 import {TodoView} from "./components";
-import {createTodoEntity} from "../back";
 import {EventsNames, HX_TRIGGER} from "./events";
+import { treaty } from '@elysiajs/eden'
+import {TodoApi} from "../back";
 
+const client = treaty<TodoApi>('localhost:3000').api
 
-export const getAllViewHandler = async (context: { db: Database }) =>
-    getAllTodos(context.db).then(
+export const getAllViewHandler = async () =>
+    client.todos.index.get().then(
         todos => (
                 <div>
-                    {todos.map(todo => (
+                    {todos.data?.map(todo => (
                         <TodoView todo={todo}/>
                     ))}
                 </div>
             )
-
     )
 
-export const postTodoViewHandler = async (context:{db : Database, body: {label: string}, set: any}) =>
-    saveTodo(context.db, createTodoEntity(context.body.label))
-        .then(todo => {
-            context.set.headers[HX_TRIGGER] = JSON.stringify({
-                [EventsNames.TODO_ADDED]: true,
-            });
-            return <TodoView todo={todo}/>
-        })
+export const postTodoViewHandler = async (context:{body: {label: string}, set: any}) => {
+    console.log(context.body.label)
+
+    return client.todos.index.post({
+        label: context.body.label
+    }).then(response => {
+        context.set.headers[HX_TRIGGER] = JSON.stringify({
+            [EventsNames.TODO_ADDED]: true,
+        });
+        if (response.data) {
+            return <TodoView todo={response.data}/>
+        }
+        throw new Error(response.error?.value?.toString())
+    })
+}
 
 
-export const putTodoViewHandler = async (context:{db : Database, body: {label: string}, query: {id: string, completed: string},  set: any}) =>
-    updateTodo(context.db, context.query.id, context.body.label, Boolean(Number(context.query.completed).valueOf()))
-        .then(todo => {
-            context.set.headers[HX_TRIGGER] = JSON.stringify({
-                [EventsNames.TODO_UPDATED]: true,
-            });
-            return <TodoView todo={todo}/>
-        })
-
-
-export const deleteTodoViewHandler = async (context:{db : Database,  params: {id: string},  set: any}) =>
-    deleteTodo(context.db, context.params.id).then(_ => <></>)
-
-export const checkTodoViewHandler = async (context:{db : Database, query: {id: string, label: string, completed: string},  set: any}) =>
-    updateTodo(context.db, context.query.id, context.query.label, Boolean(Number(context.query.completed).valueOf()))
-        .then(todo => {
+export const putTodoViewHandler = async (context:{body: {label: string}, query: {id: string, completed: string},  set: any}) =>
+        client.todos({id: context.query.id}).put({
+            label: context.body.label,
+            completed: Boolean(Number(context.query.completed).valueOf())
+        }).then(response => {
             context.set.headers[HX_TRIGGER] = JSON.stringify({
                 [EventsNames.TODO_UPDATED]: true,
             });
-            return <TodoView todo={todo}/>
+            if (response.data) return <TodoView todo={response.data}/>
+            return <></>
+        })
+
+
+export const deleteTodoViewHandler = async (context:{params: {id: string},  set: any}) =>
+    client.todos({id: context.params.id}).delete().then(_ => <></>)
+
+export const checkTodoViewHandler = async (context:{query: {id: string, label: string, completed: string},  set: any}) =>
+        client.todos({id: context.query.id}).put({
+            label: context.query.label,
+            completed: Boolean(Number(context.query.completed).valueOf())
+        }).then(response => {
+            context.set.headers[HX_TRIGGER] = JSON.stringify({
+                [EventsNames.TODO_UPDATED]: true,
+            });
+            if(response.data) return <TodoView todo={response.data}/>
+            return <></>
         })
